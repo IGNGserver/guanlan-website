@@ -34,7 +34,7 @@ v0.2.271。站点在构建时读取 Releases，取「最新一个资产命名符
 - 技术栈：Astro 7 静态站点 + three.js，见 `AGENTS.md`「技术栈」；
 - 页面：首页（长滚动叙事）、`/download/`、`/deploy/`、404；
 - 视觉方向与 3D 源资产：见 `design/DESIGN.md`；
-- 正式域名确定为 `https://guanlan.igng.net/`，托管方案定案为 Cloudflare Pages Direct Upload（见 `docs/HOSTING.md`）。
+- 已部署上线：Cloudflare Pages Direct Upload 项目 `guanlan-website`，正式域名 `https://guanlan.igng.net/`（见 `docs/HOSTING.md`）。
 
 ## 页面结构
 
