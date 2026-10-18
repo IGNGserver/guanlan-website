@@ -9,6 +9,14 @@
 - 本仓库为独立公开仓库，CI 走 GitHub Actions；
 - 本项目对应的 Pages/Workers 项目尚未创建，域名与子域未选定。
 
+## 构建产物（2026-10-18 定案）
+
+- 构建命令：`pnpm install --frozen-lockfile && pnpm build`；输出目录 `dist/`（纯静态，含 404.html）；
+- Node.js ≥ 22.13，pnpm 10（`packageManager` 已锁定）；
+- 环境变量：`SITE_URL`（正式域名，用于 canonical 与 og:image 绝对地址；未设置时退化为相对地址）、
+  `GITHUB_TOKEN`（可选，构建时读取产品 Releases 免限流）、`GUANLAN_OFFLINE=1`（离线构建，使用烘焙的发布信息）；
+- 无边缘逻辑需求；`/models/observatory.glb`（约 0.5 MB）与 `/_astro/*` 可长缓存。
+
 ## 候选方案（实现时二选一）
 
 | 方案 | 说明 | 何时适用 |
@@ -21,7 +29,7 @@
 
 ## 上线检查清单（后续任务执行）
 
-- [ ] 前端技术栈与构建命令定案，登记到 `AGENTS.md` 并接入 CI；
+- [x] 前端技术栈与构建命令定案，登记到 `AGENTS.md` 并接入 CI（2026-10-18）；
 - [ ] 创建 Cloudflare 项目（建议名 `guanlan-website`，与仓库同名），确定 Pages / Workers；
 - [ ] 选定 zone 与子域（候选：现有 zone 子域或独立域名），配置自定义域并验证 HTTPS；
 - [ ] 若走 CI 上传：在 GitHub 仓库 Secrets 配置 `CLOUDFLARE_API_TOKEN`（最小权限：仅目标账户 Pages/Workers 编辑）与 `CLOUDFLARE_ACCOUNT_ID`；凭据不得提交；

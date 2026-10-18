@@ -10,6 +10,10 @@ required_files=(
   .gitignore .gitattributes .editorconfig
   docs/SITE.md docs/HOSTING.md docs/WORKSPACE.md
   .github/workflows/ci.yml .github/pull_request_template.md .github/CODEOWNERS
+  package.json pnpm-lock.yaml astro.config.mjs tsconfig.json playwright.config.ts
+  src/data/product.ts
+  design/DESIGN.md design/observatory.json design/blender/build_observatory.py design/blender/guanlan_observatory.blend
+  public/models/observatory.glb
 )
 for file in "${required_files[@]}"; do
   test -f "$file" || { echo "missing required file: $file" >&2; exit 1; }
@@ -30,9 +34,27 @@ if git ls-files -z | grep -E -z '(^|/)(\.env|\.dev\.vars)$|\.(pem|key|p12|jks|ke
 fi
 
 # 依赖与本地状态目录不得被跟踪
-if git ls-files -z | grep -E -z '(^|/)(node_modules|\.wrangler|\.output)/' >/dev/null; then
+if git ls-files -z | grep -E -z '(^|/)(node_modules|\.wrangler|\.output|\.astro|dist|test-results|playwright-report)/' >/dev/null; then
   echo "tracked dependency/build-state directory detected" >&2
   exit 1
+fi
+
+# 站点资产体积预算：模型与单个静态资源不得失控（Cloudflare 单文件上限 25 MiB，首屏要轻）
+while IFS= read -r -d '' f; do
+  size=$(wc -c <"$f" | tr -d ' ')
+  limit=1572864
+  case "$f" in
+    design/blender/*.blend) limit=8388608 ;;
+  esac
+  if [ "$size" -gt "$limit" ]; then
+    echo "asset over budget ($size > $limit bytes): $f" >&2
+    exit 1
+  fi
+done < <(git ls-files -z -- 'public/*' 'src/assets/*' 'design/blender/*')
+
+# design/observatory.json 必须是合法 JSON（Blender 与站点共用）
+if command -v node >/dev/null 2>&1; then
+  node -e "JSON.parse(require('fs').readFileSync('design/observatory.json','utf8'))" || { echo "design/observatory.json 不是合法 JSON" >&2; exit 1; }
 fi
 
 # 文本内容中的凭据模式（与设备级规范第 9 节一致）

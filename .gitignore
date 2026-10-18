@@ -1,5 +1,6 @@
 # 依赖与构建产物（构建缓存按设备级规范放共享目录，不进工作区）
 node_modules/
+.astro/
 dist/
 build/
 .output/

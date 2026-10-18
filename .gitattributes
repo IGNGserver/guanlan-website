@@ -9,3 +9,5 @@
 *.ico binary
 *.woff binary
 *.woff2 binary
+*.glb binary
+*.blend binary
