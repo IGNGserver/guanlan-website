@@ -43,10 +43,10 @@ Worktree: `~/项目/.wt/观澜-site/<slug>`
 - 站点示意数据（首屏读数、实时面板）必须在界面上标注「示意数据」；3D 仪器是虚构的隐喻，不得暗示观澜是硬件产品。
 - 站点文案引用产品事实（功能、平台、版本）时必须与产品仓库当前 `README.md` / Releases 对齐，不得编造未发布能力。
 - 品牌名：中文显示「观澜」；英文名与字标未在产品仓库定案，官网不得自行发明（标识符沿用 `guanlan` 前缀）。
-- 正式域名 `https://guanlan.igng.net/`，托管方案定为 Cloudflare Pages Direct Upload；域名或项目名变更要在 `docs/HOSTING.md` 登记，并同步 CI 的 `SITE_URL` 与 `astro.config.mjs` 缺省值。
+- 正式域名 `https://guanlan.igng.net/`，Cloudflare Pages 项目 `guanlan-website`；域名或项目名变更要在 `docs/HOSTING.md` 登记，并同步 CI 的 `SITE_URL` 与 `astro.config.mjs` 缺省值。
 
 ## 环境事实
 
 - 开发位置：NAS 共享卷 `~/项目`（ubuntu-dev 为 CIFS，macOS 设备为 NFSv3）；仓库锚点 `~/项目/项目网站/观澜-site`，任务 worktree 在 `~/项目/.wt/观澜-site/<slug>`。
 - 本地构建只在本机盘可用的设备上做（见设备级规范第 11 节）；ubuntu-dev 根盘低于 20G 闸门时一律走 CI。
-- 生产目标：Cloudflare Pages Direct Upload 项目，正式域名 `https://guanlan.igng.net/`；自动发布流程未启用，不写凭据。
+- 生产目标：Cloudflare Pages Direct Upload 项目 `guanlan-website`，正式域名 `https://guanlan.igng.net/`；默认别名 `https://guanlan-website-fms.pages.dev/`；自动发布流程未启用，不写凭据。
