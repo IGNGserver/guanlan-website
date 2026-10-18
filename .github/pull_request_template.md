@@ -13,6 +13,8 @@
 ```text
 bash scripts/verify-repository.sh
 git diff --check
+pnpm build   # 改动站点源码时（在构建区运行）
+pnpm test
 ```
 
 ## 已知风险与未完成项
